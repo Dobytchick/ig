@@ -2,15 +2,20 @@ PLUGIN.name = "Item Giver"
 PLUGIN.desc = "Simple tool for admins"
 PLUGIN.author = "Dobytchick"
 
-nut.util.include("sv_plugin.lua")
+netstream.Hook("cl_return",function(client,whatReturn)
+    print(whatReturn)
+    return whatReturn
+end)
 
 local function checkemptyslot(ent)
-    if ent:getChar():getInv():findEmptySlot() != nil then
+    if netstream.Start("CheckEmpty",ent) != false then
         return true
     else
         return false
     end
 end
+
+nut.util.include("sv_plugin.lua")
 
 nut.command.add("ig_open", {
 	adminOnly = true,
@@ -45,7 +50,7 @@ netstream.Hook("open_ig_panel",function(client)
 
         local giveonself = dmenu:AddSubMenu("Issue himself")
         giveonself:AddOption("1PC.",function()
-            netstream.Start("givemyitem",1,nil,item,item)
+            netstream.Start("givemyitem",1,nil,item,1)
         end)
         giveonself:AddOption("His quantity",function()
             Derma_StringRequest("His quantity", "Enter the number of items to issue", 0, function(string) 
@@ -58,9 +63,7 @@ netstream.Hook("open_ig_panel",function(client)
                     nut.util.notify("No space in inventory")
                     return false
                 end
-                for i=1,string_ do
-                    netstream.Start("givemyitem",1,nil,item,item)
-                end
+                    netstream.Start("givemyitem",1,nil,item,string_ )
                 nut.util.notify("Item "..nut.item.list[item].name.." issued to himself "..string_.." now")
             end, nil, "Give", "Cancel")
         end)
@@ -77,7 +80,9 @@ netstream.Hook("open_ig_panel",function(client)
                 playerselect_dlv:AddColumn("Entindex")
                 for k,v in pairs(player.GetAll()) do 
                     if v != LocalPlayer() then
-                        playerselect_dlv:AddLine(v:Name(),v)
+                        if IsValid(v) and v:getChar() then
+                            playerselect_dlv:AddLine(v:Name(),v)
+                        end
                     end
                 end
                 function playerselect_dlv:DoDoubleClick(lineID, lineID)
@@ -85,7 +90,7 @@ netstream.Hook("open_ig_panel",function(client)
                         nut.util.notify("No space in inventory")
                         return false
                     end
-                    netstream.Start("givemyitem",2,lineID:GetColumnText(2),item,item)
+                    netstream.Start("givemyitem",2,lineID:GetColumnText(2),item,1)
                     nut.util.notify("Item "..nut.item.list[item].name.." issued to player "..lineID:GetColumnText(1))
                     playerselect_f:Remove()
                 end
@@ -104,7 +109,9 @@ netstream.Hook("open_ig_panel",function(client)
                 playerselect_dlv:AddColumn("Entindex")
                 for k,v in pairs(player.GetAll()) do
                     if v != LocalPlayer() then
-                        playerselect_dlv:AddLine(v:Name(),v)
+                        if IsValid(v) and v:getChar() then
+                            playerselect_dlv:AddLine(v:Name(),v)
+                        end
                     end
                 end
                 function playerselect_dlv:DoDoubleClick(lineID, lineID)
@@ -118,9 +125,7 @@ netstream.Hook("open_ig_panel",function(client)
                             nut.util.notify("No space in inventory")
                             return false
                         end
-                        for i=1,string_ do
-                            netstream.Start("givemyitem",2,lineID:GetColumnText(2),item,item)
-                        end
+                        netstream.Start("givemyitem",2,lineID:GetColumnText(2),item,string_)
                         nut.util.notify("Item "..nut.item.list[item].name.." issued to player "..lineID:GetColumnText(1).." "..string_.." now")
                         playerselect_f:Remove()
                     end, nil, "Give", "Cancel")

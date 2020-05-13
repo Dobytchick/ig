@@ -3,7 +3,6 @@ PLUGIN.desc = "Simple tool for admins"
 PLUGIN.author = "Dobytchick"
 
 netstream.Hook("cl_return",function(client,whatReturn)
-    print(whatReturn)
     return whatReturn
 end)
 

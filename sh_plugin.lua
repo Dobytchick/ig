@@ -75,8 +75,8 @@ netstream.Hook("open_ig_panel",function(client)
                 playerselect_f:SetTitle("playerselector")
                 playerselect_dlv = playerselect_f:Add("DListView")
                 playerselect_dlv:Dock(FILL)
-                playerselect_dlv:AddColumn("Имя")
-                playerselect_dlv:AddColumn("Entindex")
+                playerselect_dlv:AddColumn("PNAME")
+                playerselect_dlv:AddColumn("PEINDEX")
                 for k,v in pairs(player.GetAll()) do 
                     if v != LocalPlayer() then
                         if IsValid(v) and v:getChar() then
@@ -104,8 +104,8 @@ netstream.Hook("open_ig_panel",function(client)
                 playerselect_f:SetTitle("playerselector")
                 playerselect_dlv = playerselect_f:Add("DListView")
                 playerselect_dlv:Dock(FILL)
-                playerselect_dlv:AddColumn("Имя")
-                playerselect_dlv:AddColumn("Entindex")
+                playerselect_dlv:AddColumn("PNAME")
+                playerselect_dlv:AddColumn("PEINDEX")
                 for k,v in pairs(player.GetAll()) do
                     if v != LocalPlayer() then
                         if IsValid(v) and v:getChar() then

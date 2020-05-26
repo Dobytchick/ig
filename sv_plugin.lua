@@ -1,5 +1,4 @@
 netstream.Hook("givemyitem",function(client,mode,otherclient,item,quantity)
-    print(client,mode,otherclient,item,quantity)
     if !isnumber(mode) then return false end
     if !client:IsAdmin() then return false end
     if mode == 1 then

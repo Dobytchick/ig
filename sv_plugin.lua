@@ -12,9 +12,9 @@ end)
 netstream.Hook("CheckEmpty",function(client,otherclient)
     if client:IsAdmin() then
         if otherclient:getChar():getInv():findEmptySlot() != nil then
-            netstream.Start(client,"cl_return",nil,true)
+            netstream.Start(client,"cl_return",true)
         else
-            netstream.Start(client,"cl_return",nil,false)
+            netstream.Start(client,"cl_return",false)
         end
     end
 end)

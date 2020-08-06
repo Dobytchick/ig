@@ -2,7 +2,7 @@ PLUGIN.name = "Item Giver"
 PLUGIN.desc = "Simple tool for admins"
 PLUGIN.author = "Dobytchick"
 
-netstream.Hook("cl_return",function(client,whatReturn)
+netstream.Hook("cl_return",function(whatReturn)
     return whatReturn
 end)
 
